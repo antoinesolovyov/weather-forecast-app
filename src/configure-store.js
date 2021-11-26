@@ -1,5 +1,5 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import thunk from 'redux-thunk'
-import { countReducer } from './reducer'
+import { dateReducer, forecastReducer } from './reducer'
 
-export const store = createStore(countReducer, applyMiddleware(thunk))
+export const store = createStore(combineReducers({ forecastReducer, dateReducer }), applyMiddleware(thunk))
