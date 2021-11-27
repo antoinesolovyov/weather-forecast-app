@@ -17,7 +17,21 @@ export async function fetchForecast (dispatch) {
       }
     }
 
+    const date = new Date()
+    localStorage.setItem(
+      `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`,
+      JSON.stringify({ timezone, forecast })
+    )
+
     dispatch({ type: 'SET_TIMEZONE', payload: timezone })
     dispatch({ type: 'SET_FORECAST', payload: forecast })
   })
+}
+
+export function loadForecast (dispatch) {
+  const date = new Date()
+  const item = JSON.parse(localStorage.getItem(`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`))
+  dispatch({ type: 'SET_TIMEZONE', payload: item.timezone })
+  dispatch({ type: 'SET_FORECAST', payload: item.forecast })
+  console.log('!', localStorage.getItem(`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`))
 }

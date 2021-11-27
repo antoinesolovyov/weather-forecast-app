@@ -11,7 +11,7 @@ function Clock () {
 
   const tick = () => {
     const date = new Date()
-    if (Math.round(date / 1000) % 60 === 0)
+    if (date.getSeconds() % 60 === 0)
       dispatch({ type: 'SET_DATE', payload: date })
   }
 
