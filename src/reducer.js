@@ -1,9 +1,9 @@
-const initialState = {
+export const forecastState = {
   timezone: '',
   forecast: []
 }
 
-export const forecastReducer = function (state = initialState, action) {
+export const forecastReducer = function (state = forecastState, action) {
   switch (action.type) {
     case 'SET_TIMEZONE':
       return {
@@ -20,7 +20,11 @@ export const forecastReducer = function (state = initialState, action) {
   }
 }
 
-export const dateReducer = function (state = { date: new Date() }, action) {
+export const dateState = {
+  date: new Date()
+}
+
+export const dateReducer = function (state = dateState, action) {
   switch (action.type) {
     case 'SET_DATE':
       return {
