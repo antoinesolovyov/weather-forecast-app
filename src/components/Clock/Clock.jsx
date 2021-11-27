@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { formatTime, formatAMPM, formatDate } from './formatter'
+import { formatTime, formatAMPM, formatDate } from 'utils/formatters'
+import { selectDate, selectTimezone } from 'utils/selectors'
 import './Clock.css'
-
-const selectDate = (state) => {
-  return state.dateReducer.date
-}
 
 function Clock () {
   const dispatch = useDispatch()
-  const date = useSelector((state) => selectDate(state))
+  const date = useSelector(selectDate)
+  const timezone = useSelector(selectTimezone)
 
   const tick = () => {
-    dispatch({ type: 'SET_DATE', payload: new Date() })
+    const date = new Date()
+    if (Math.round(date / 1000) % 60 === 0)
+      dispatch({ type: 'SET_DATE', payload: date })
   }
 
   useEffect(() => {
-    const timerID = setInterval(tick, 60 * 1000)
+    const timerID = setInterval(tick, 1000)
 
     return () => clearInterval(timerID)
   }, [])
@@ -27,7 +27,7 @@ function Clock () {
         <span className='time'>{formatTime(date)}</span> <span>{formatAMPM(date)}</span>
         <p className='date'>{formatDate(date)}</p>
       </div>
-      <div className='location'><span>Europe</span><span>Minsk</span></div>
+      <div className='location'><span>{timezone.split('/')[0]}</span><span>{timezone.split('/')[1]}</span></div>
     </header>
   )
 }
