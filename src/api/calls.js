@@ -1,11 +1,30 @@
 import { getForecastUrl } from './urls'
+import {
+  fetchForecastBegin,
+  fetchForecastSuccess,
+  fetchForecastFailure,
+  setCurrentPosition,
+  setTimezone
+} from '../actions/forecast-actions'
 
-export async function fetchForecast (dispatch) {
-  await navigator.geolocation.getCurrentPosition(async (position) => {
-    const lat = position.coords.latitude
-    const lon = position.coords.longitude
+export async function getPosition (dispatch) {
+  await navigator.geolocation.getCurrentPosition((position) => {
+    const { latitude, longitude } = position.coords
 
-    const response = await fetch(getForecastUrl(lat, lon))
+    dispatch(setCurrentPosition({ latitude, longitude }))
+  })
+}
+
+export const fetchForecast = ({ latitude, longitude }) => async (dispatch) => {
+  dispatch(fetchForecastBegin())
+
+  try {
+    const response = await fetch(getForecastUrl(latitude, longitude))
+
+    if (!response.ok) {
+      throw Error(response.statusText)
+    }
+
     const json = await response.json()
 
     const { timezone, daily } = json
@@ -23,15 +42,17 @@ export async function fetchForecast (dispatch) {
       JSON.stringify({ timezone, forecast })
     )
 
-    dispatch({ type: 'SET_TIMEZONE', payload: timezone })
-    dispatch({ type: 'SET_FORECAST', payload: forecast })
-  })
+    dispatch(setTimezone(timezone))
+    dispatch(fetchForecastSuccess(forecast))
+  } catch (error) {
+    dispatch(fetchForecastFailure(error))
+  }
 }
 
 export function loadForecast (dispatch) {
   const date = new Date()
   const item = JSON.parse(localStorage.getItem(`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`))
-  dispatch({ type: 'SET_TIMEZONE', payload: item.timezone })
-  dispatch({ type: 'SET_FORECAST', payload: item.forecast })
-  console.log('!', localStorage.getItem(`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`))
+
+  dispatch(setTimezone(item.timezone))
+  dispatch(fetchForecastSuccess(item.forecast))
 }
