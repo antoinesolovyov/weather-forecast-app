@@ -3,35 +3,45 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getIconUrl } from 'api/urls'
 import { fetchForecast, loadForecast } from 'api/calls'
 import { formatDayName } from 'utils/formatters'
-import { selectForecast, selectDate } from 'utils/selectors'
+import {
+  selectDate,
+  selectPosition,
+  selectForecast,
+  selectLoading
+} from 'utils/selectors'
 import './Forecast.css'
 
 function Forecast () {
   const dispatch = useDispatch()
-  const forecast = useSelector(selectForecast)
   const date = useSelector(selectDate)
+  const position = useSelector(selectPosition)
+  const forecast = useSelector(selectForecast)
+  const loading = useSelector(selectLoading)
 
   useEffect(() => {
     if (localStorage.getItem(`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`) === null) {
-      dispatch(fetchForecast)
+      dispatch(fetchForecast(position))
     } else {
       dispatch(loadForecast)
     }
-  }, [date])
+  }, [date, position])
 
   return (
     <>
-      <div className='forecast'>
-        <div className='cards'>
-          {forecast.map((day, dayNum) => (
-            <div key={dayNum} className='card'>
-              <p>{formatDayName(date)}</p>
-              <img src={getIconUrl(day.icon)} alt={day.description} />
-              <span className='temperature'>{day.temp.day.toFixed()}°</span>
-            </div>
-          ))}
+      {loading ?
+        <p>loading</p> :
+        <div className='forecast'>
+          <div className='cards'>
+            {forecast.map((day, dayNum) => (
+              <div key={dayNum} className='card'>
+                <p>{formatDayName(date)}</p>
+                <img src={getIconUrl(day.icon)} alt={day.description} />
+                <span className='temperature'>{day.temp.day.toFixed()}°</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      }
     </>
   )
 }
