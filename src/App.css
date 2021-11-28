@@ -5,12 +5,7 @@ html {
 body {
   height: 100%;
   display: flex;
-
-  background: url(./assets/cloudy.jpg) no-repeat center center fixed;
-  background-size: cover;
-
   color: white;
-
   margin: 0px;
 }
 
@@ -18,6 +13,7 @@ main {
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
 }
 
 #root {
