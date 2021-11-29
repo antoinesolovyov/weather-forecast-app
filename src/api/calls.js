@@ -15,8 +15,10 @@ export async function getPosition (dispatch) {
   })
 }
 
-export const fetchForecast = ({ latitude, longitude }) => async (dispatch) => {
+export const fetchForecast = ({ latitude, longitude }) => async (dispatch, getState) => {
   dispatch(fetchForecastBegin())
+
+  console.log(getState())
 
   try {
     const response = await fetch(getForecastUrl(latitude, longitude))
@@ -38,7 +40,7 @@ export const fetchForecast = ({ latitude, longitude }) => async (dispatch) => {
 
     const date = new Date()
     localStorage.setItem(
-      `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`,
+      `${latitude.toFixed(2)}:${longitude.toFixed(2)},${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`,
       JSON.stringify({ timezone, forecast })
     )
 
@@ -49,9 +51,10 @@ export const fetchForecast = ({ latitude, longitude }) => async (dispatch) => {
   }
 }
 
-export function loadForecast (dispatch) {
+export const loadForecast = ({ latitude, longitude }) => (dispatch, getState) => {
+  console.log(getState())
   const date = new Date()
-  const item = JSON.parse(localStorage.getItem(`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`))
+  const item = JSON.parse(localStorage.getItem(`${latitude.toFixed(2)}:${longitude.toFixed(2)},${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`))
 
   dispatch(setTimezone(item.timezone))
   dispatch(fetchForecastSuccess(item.forecast))

@@ -24,6 +24,6 @@ export const setCurrentPosition = (position) => ({
 })
 
 export const setTimezone = (position) => ({
-  type: SET_CURRENT_POSITION,
+  type: SET_TIMEZONE,
   payload: position
 })

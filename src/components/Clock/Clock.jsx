@@ -16,6 +16,7 @@ function Clock () {
   }
 
   useEffect(() => {
+    console.log('Clock use Effect')
     const timerID = setInterval(tick, 1000)
 
     return () => clearInterval(timerID)

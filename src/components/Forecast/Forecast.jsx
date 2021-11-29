@@ -19,10 +19,11 @@ function Forecast () {
   const loading = useSelector(selectLoading)
 
   useEffect(() => {
-    if (localStorage.getItem(`${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`) === null) {
+    console.log('Forecast use Effect')
+    if (localStorage.getItem(`${position.latitude.toFixed(2)}:${position.longitude.toFixed(2)},${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`) === null) {
       dispatch(fetchForecast(position))
     } else {
-      dispatch(loadForecast)
+      dispatch(loadForecast(position))
     }
   }, [date, position])
 
@@ -32,13 +33,16 @@ function Forecast () {
         <p>loading</p> :
         <div className='forecast'>
           <div className='cards'>
-            {forecast.map((day, dayNum) => (
+            {forecast.map((day, dayNum) => {
+              const newDay = new Date()
+              newDay.setDate(newDay.getDate() + dayNum)
+              return (
               <div key={dayNum} className='card'>
-                <p>{formatDayName(date)}</p>
+                <p>{formatDayName(newDay)}</p>
                 <img src={getIconUrl(day.icon)} alt={day.description} />
                 <span className='temperature'>{day.temp.day.toFixed()}°</span>
               </div>
-            ))}
+            )})}
           </div>
         </div>
       }

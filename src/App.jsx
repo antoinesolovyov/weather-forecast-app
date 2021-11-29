@@ -11,8 +11,9 @@ const App = () => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    console.log('App use Effect')
     dispatch(getPosition)
-  })
+  }, [])
 
   return (
     <main style={forecast && forecast[0]?.main && {
