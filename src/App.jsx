@@ -16,14 +16,21 @@ const App = () => {
   }, [])
 
   return (
-    <main style={forecast && forecast[0]?.main && {
+    <div style={forecast && forecast[0]?.main && {
       backgroundImage: `url(./condition-images/${forecast[0]?.main}.jpg)`,
       backgrounPosition: 'no-repeat',
-      backgroundSize: 'cover'
+      backgroundSize: 'cover',
+
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+
+      width: '100%',
+      height: '100%'
     }}>
       <Clock />
       <Forecast />
-    </main>
+    </div>
 )}
 
 export default App

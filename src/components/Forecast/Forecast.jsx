@@ -4,14 +4,12 @@ import { getIconUrl } from 'api/urls'
 import { fetchForecast, loadForecast } from 'api/calls'
 import { formatDayName } from 'utils/formatters'
 import {
-  selectDate,
-  selectPosition,
-  selectForecast,
-  selectLoading
+  selectDate, selectPosition,
+  selectForecast, selectLoading
 } from 'utils/selectors'
 import './Forecast.css'
 
-function Forecast () {
+export default function Forecast () {
   const dispatch = useDispatch()
   const date = useSelector(selectDate)
   const position = useSelector(selectPosition)
@@ -27,27 +25,47 @@ function Forecast () {
     }
   }, [date, position])
 
+  const today = forecast[0]
+  const firstHalf = [forecast[1], forecast[2], forecast[3]]
+  const secondHalf = [forecast[4], forecast[5], forecast[6]]
+
+  console.log(today)
   return (
-    <>
-      {loading ?
-        <p>loading</p> :
-        <div className='forecast'>
-          <div className='cards'>
-            {forecast.map((day, dayNum) => {
-              const newDay = new Date()
-              newDay.setDate(newDay.getDate() + dayNum)
-              return (
-              <div key={dayNum} className='card'>
-                <p>{formatDayName(newDay)}</p>
-                <img src={getIconUrl(day.icon)} alt={day.description} />
-                <span className='temperature'>{day.temp.day.toFixed()}°</span>
-              </div>
-            )})}
-          </div>
+    loading ? <p>!!!</p> :
+    <main>
+      <div className="weather-today">
+        <img src={`./condition-icons/${today?.main.toLowerCase()}.svg`} alt={today?.description} />
+        <div>
+          <span>TODAY</span>
+          <span>{today?.temp.day.toFixed()}°</span>
         </div>
-      }
-    </>
+      </div>
+      <div className="weather-forecast">
+        <div className="weather-forecast_half">
+          {firstHalf.map((day, dayNum) => {
+            const newDay = new Date()
+            newDay.setDate(newDay.getDate() + dayNum + 1)
+            return (
+              <div key={dayNum} className="weather-forecast_day">
+                <span>{formatDayName(newDay)}</span>
+                <img src={`./condition-icons/${day?.main.toLowerCase()}.svg`} alt={day?.description} />
+                <span>{day?.temp.day.toFixed()}°</span>
+              </div>
+          )})}
+        </div>
+        <div className="weather-forecast_half">
+          {secondHalf.map((day, dayNum) => {
+            const newDay = new Date()
+            newDay.setDate(newDay.getDate() + dayNum + 4)
+            return (
+              <div key={dayNum} className="weather-forecast_day">
+                <span>{formatDayName(newDay)}</span>
+                <img src={`./condition-icons/${day?.main.toLowerCase()}.svg`} alt={day?.description} />
+                <span>{day?.temp.day.toFixed()}°</span>
+              </div>
+          )})}
+        </div>
+      </div>
+    </main>
   )
 }
-
-export default Forecast
