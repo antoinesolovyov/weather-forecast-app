@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { formatTime, formatAMPM, formatDate } from 'utils/formatters'
-import { selectDate, selectTimezone } from 'utils/selectors'
+import { formatTime, formatDate } from 'utils/formatters'
+import { selectDate, selectLocation, selectPosition } from 'utils/selectors'
+import { fetchLocation } from 'api/calls'
 import './Clock.css'
 
-function Clock () {
+export default function Clock () {
   const dispatch = useDispatch()
   const date = useSelector(selectDate)
-  const timezone = useSelector(selectTimezone)
+  const position = useSelector(selectPosition)
+  const location = useSelector(selectLocation)
 
   const tick = () => {
     const date = new Date()
@@ -16,20 +18,25 @@ function Clock () {
   }
 
   useEffect(() => {
+    console.log('Clock use Effect')
     const timerID = setInterval(tick, 1000)
 
+    dispatch(fetchLocation(position))
+
     return () => clearInterval(timerID)
-  }, [])
+  }, [position])
 
   return (
     <header>
-      <div className='clock'>
-        <span className='time'>{formatTime(date)}</span> <span>{formatAMPM(date)}</span>
-        <p className='date'>{formatDate(date)}</p>
+      <div className="clock">
+        <p>{formatTime(date)}</p>
+        <p>{formatDate(date)}</p>
       </div>
-      <div className='location'><span>{timezone.split('/')[0]}</span><span>{timezone.split('/')[1]}</span></div>
+      <div className="location">
+        <p>{location?.split(' ')[2]}</p>
+        <p>{location?.split(' ')[1]?.split(',')[0]}</p>
+        <p>{location}</p>
+      </div>
     </header>
   )
 }
-
-export default Clock
