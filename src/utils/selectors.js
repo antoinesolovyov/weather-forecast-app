@@ -6,12 +6,12 @@ export const selectForecast = (state) => {
   return state.forecastState.forecast
 }
 
-export const selectLoading = (state) => {
-  return state.forecastState.loading
+export const selectLocation = (state) => {
+  return state.forecastState.location
 }
 
-export const selectTimezone = (state) => {
-  return state.forecastState.timezone
+export const selectLoading = (state) => {
+  return state.forecastState.loading
 }
 
 export const selectPosition = (state) => {

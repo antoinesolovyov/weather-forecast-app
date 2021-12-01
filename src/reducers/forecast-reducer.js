@@ -2,13 +2,15 @@ import {
   FETCH_FORECAST_BEGIN,
   FETCH_FORECAST_SUCCESS,
   FETCH_FORECAST_FAILURE,
-  SET_CURRENT_POSITION,
-  SET_TIMEZONE
+  FETCH_LOCATION_BEGIN,
+  FETCH_LOCATION_SUCCESS,
+  FETCH_LOCATION_FAILURE,
+  SET_CURRENT_POSITION
 } from 'actions/forecast-actions'
 
 export const initialState = {
-  timezone: '',
   forecast: [],
+  location: '',
   position: {
     latitude: 0,
     longitude: 0
@@ -32,7 +34,6 @@ export const forecastReducer = function (state = initialState, action) {
         loading: false,
         forecast: action.payload
       }
-
     case FETCH_FORECAST_FAILURE:
       return {
         ...state,
@@ -40,10 +41,24 @@ export const forecastReducer = function (state = initialState, action) {
         error: action.payload.error,
         forecast: []
       }
-    case SET_TIMEZONE:
+    case FETCH_LOCATION_BEGIN:
       return {
         ...state,
-        timezone: action.payload
+        loading: true,
+        error: null
+      }
+    case FETCH_LOCATION_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        location: action.payload
+      }
+    case FETCH_LOCATION_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+        location: ''
       }
     case SET_CURRENT_POSITION:
       return {

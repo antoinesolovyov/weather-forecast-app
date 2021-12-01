@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getPosition } from 'api/calls'
 import { selectForecast } from 'utils/selectors'
 import Clock from './components/Clock/Clock'
+import Input from './components/Input/Input'
 import Forecast from './components/Forecast/Forecast'
 import './App.css'
 
@@ -29,6 +30,7 @@ const App = () => {
       height: '100%'
     }}>
       <Clock />
+      <Input />
       <Forecast />
     </div>
 )}

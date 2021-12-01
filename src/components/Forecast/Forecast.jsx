@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getIconUrl } from 'api/urls'
+import { getIconPath } from 'api/urls'
 import { fetchForecast, loadForecast } from 'api/calls'
 import { formatDayName } from 'utils/formatters'
 import {
@@ -34,7 +34,7 @@ export default function Forecast () {
     loading ? <p>!!!</p> :
     <main>
       <div className="weather-today">
-        <img src={`./condition-icons/${today?.main.toLowerCase()}.svg`} alt={today?.description} />
+        <img src={getIconPath(today)} alt={today?.description} />
         <div>
           <span>TODAY</span>
           <span>{today?.temp.day.toFixed()}°</span>
@@ -48,7 +48,7 @@ export default function Forecast () {
             return (
               <div key={dayNum} className="weather-forecast_day">
                 <span>{formatDayName(newDay)}</span>
-                <img src={`./condition-icons/${day?.main.toLowerCase()}.svg`} alt={day?.description} />
+                <img src={getIconPath(day)} alt={day?.description} />
                 <span>{day?.temp.day.toFixed()}°</span>
               </div>
           )})}
@@ -60,7 +60,7 @@ export default function Forecast () {
             return (
               <div key={dayNum} className="weather-forecast_day">
                 <span>{formatDayName(newDay)}</span>
-                <img src={`./condition-icons/${day?.main.toLowerCase()}.svg`} alt={day?.description} />
+                <img src={getIconPath(day)} alt={day?.description} />
                 <span>{day?.temp.day.toFixed()}°</span>
               </div>
           )})}
