@@ -1,18 +1,13 @@
 export const formatTime = (date) => {
   let hours = date.getHours()
   let minutes = date.getMinutes()
+  const ampm = hours >= 12 ? 'pm' : 'am'
 
   hours = hours % 12 || 12
   hours = hours < 10 ? '0' + hours : hours
   minutes = minutes < 10 ? '0' + minutes : minutes
 
-  return hours + ':' + minutes
-}
-
-export const formatAMPM = (date) => {
-  const hours = date.getHours()
-
-  return hours >= 12 ? 'pm' : 'am'
+  return hours + ':' + minutes + ' ' + ampm
 }
 
 export const formatDate = (date) => {

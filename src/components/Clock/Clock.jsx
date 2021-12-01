@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { formatTime, formatAMPM, formatDate } from 'utils/formatters'
+import { formatTime, formatDate } from 'utils/formatters'
 import { selectDate, selectTimezone } from 'utils/selectors'
 import './Clock.css'
 
-function Clock () {
+export default function Clock () {
   const dispatch = useDispatch()
   const date = useSelector(selectDate)
   const timezone = useSelector(selectTimezone)
@@ -24,13 +24,14 @@ function Clock () {
 
   return (
     <header>
-      <div className='clock'>
-        <span className='time'>{formatTime(date)}</span> <span>{formatAMPM(date)}</span>
-        <p className='date'>{formatDate(date)}</p>
+      <div className="clock">
+        <p>{formatTime(date)}</p>
+        <p>{formatDate(date)}</p>
       </div>
-      <div className='location'><span>{timezone.split('/')[0]}</span><span>{timezone.split('/')[1]}</span></div>
+      <div className="location">
+        <p>{timezone.split('/')[0]}</p>
+        <p>{timezone.split('/')[1]}</p>
+      </div>
     </header>
   )
 }
-
-export default Clock
