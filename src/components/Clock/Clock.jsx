@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { setDate } from 'actions/date-action'
 import { formatTime, formatDate } from 'utils/formatters'
 import { selectDate, selectLocation, selectPosition } from 'utils/selectors'
 import { fetchLocation } from 'api/calls'
@@ -14,7 +15,7 @@ export default function Clock () {
   const tick = () => {
     const date = new Date()
     if (date.getSeconds() % 60 === 0)
-      dispatch({ type: 'SET_DATE', payload: date })
+      dispatch(setDate(date))
   }
 
   useEffect(() => {

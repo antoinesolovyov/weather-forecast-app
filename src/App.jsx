@@ -17,8 +17,8 @@ const App = () => {
   }, [])
 
   return (
-    <div style={forecast && forecast[0]?.main && {
-      backgroundImage: `url(./condition-images/${forecast[0]?.main}.jpg)`,
+    <div style={forecast && forecast[0]?.weather[0]?.main && {
+      backgroundImage: `url(./condition-images/${forecast[0]?.weather[0]?.main}.jpg)`,
       backgrounPosition: 'no-repeat',
       backgroundSize: 'cover',
 

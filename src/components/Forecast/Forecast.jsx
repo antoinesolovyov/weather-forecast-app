@@ -17,7 +17,6 @@ export default function Forecast () {
   const loading = useSelector(selectLoading)
 
   useEffect(() => {
-    console.log('Forecast use Effect')
     if (localStorage.getItem(`${position.latitude.toFixed(2)}:${position.longitude.toFixed(2)},${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`) === null) {
       dispatch(fetchForecast(position))
     } else {
@@ -29,42 +28,34 @@ export default function Forecast () {
   const firstHalf = [forecast[1], forecast[2], forecast[3]]
   const secondHalf = [forecast[4], forecast[5], forecast[6]]
 
-  console.log(today)
+  const renderHalf = (half, indent) => (
+    <div className="weather-forecast_half">
+      {half.map((day, dayNum) => {
+        const newDay = new Date()
+        newDay.setDate(newDay.getDate() + dayNum + indent)
+        return (
+          <div key={dayNum} className="weather-forecast_day">
+            <span>{formatDayName(newDay)}</span>
+            <img src={getIconPath(day?.weather[0])} alt={day?.weather[0].description} />
+            <p>{day?.temp?.day.toFixed()}° / <span style={{color: 'grey'}}>{day?.temp?.night.toFixed()}°</span></p>
+          </div>
+      )})}
+    </div>
+  )
+
   return (
     loading ? <p>!!!</p> :
     <main>
       <div className="weather-today">
-        <img src={getIconPath(today)} alt={today?.description} />
+        <img src={getIconPath(today?.weather[0])} alt={today?.weather[0].description} />
         <div>
           <span>TODAY</span>
-          <span>{today?.temp.day.toFixed()}°</span>
+          <span>{today?.temp.toFixed()}°</span>
         </div>
       </div>
       <div className="weather-forecast">
-        <div className="weather-forecast_half">
-          {firstHalf.map((day, dayNum) => {
-            const newDay = new Date()
-            newDay.setDate(newDay.getDate() + dayNum + 1)
-            return (
-              <div key={dayNum} className="weather-forecast_day">
-                <span>{formatDayName(newDay)}</span>
-                <img src={getIconPath(day)} alt={day?.description} />
-                <span>{day?.temp.day.toFixed()}°</span>
-              </div>
-          )})}
-        </div>
-        <div className="weather-forecast_half">
-          {secondHalf.map((day, dayNum) => {
-            const newDay = new Date()
-            newDay.setDate(newDay.getDate() + dayNum + 4)
-            return (
-              <div key={dayNum} className="weather-forecast_day">
-                <span>{formatDayName(newDay)}</span>
-                <img src={getIconPath(day)} alt={day?.description} />
-                <span>{day?.temp.day.toFixed()}°</span>
-              </div>
-          )})}
-        </div>
+        {renderHalf(firstHalf, 1)}
+        {renderHalf(secondHalf, 4)}
       </div>
     </main>
   )

@@ -6,14 +6,14 @@ export const selectForecast = (state) => {
   return state.forecastState.forecast
 }
 
-export const selectLocation = (state) => {
-  return state.forecastState.location
-}
-
 export const selectLoading = (state) => {
   return state.forecastState.loading
 }
 
+export const selectLocation = (state) => {
+  return state.locationState.location
+}
+
 export const selectPosition = (state) => {
-  return state.forecastState.position
+  return state.positionState.position
 }
