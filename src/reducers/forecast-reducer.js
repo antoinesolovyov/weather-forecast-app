@@ -21,15 +21,14 @@ export const forecastReducer = function (state = initialState, action) {
     case FETCH_FORECAST_SUCCESS:
       return {
         ...state,
-        loading: false,
-        forecast: action.payload
+        forecast: action.payload,
+        loading: false
       }
     case FETCH_FORECAST_FAILURE:
       return {
-        ...state,
+        forecast: [],
         loading: false,
-        error: action.payload.error,
-        forecast: []
+        error: action.payload.error
       }
     default:
       return state

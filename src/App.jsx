@@ -1,37 +1,30 @@
 import React, { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { getImagePath } from './api/urls'
 import { getPosition } from 'api/calls'
 import { selectForecast } from 'utils/selectors'
-import Clock from './components/Clock/Clock'
-import Input from './components/Input/Input'
-import Forecast from './components/Forecast/Forecast'
+import Header from './components/header/Header'
+import Input from './components/input/Input'
+import Weather from './components/weather/Weather'
 import './App.css'
 
 const App = () => {
-  const forecast = useSelector(selectForecast)
   const dispatch = useDispatch()
+  const forecast = useSelector(selectForecast)
 
   useEffect(() => {
-    console.log('App use Effect')
     dispatch(getPosition)
   }, [])
 
+  const style = forecast && forecast[0]?.weather[0]?.main && {
+    backgroundImage: `url(${getImagePath(forecast[0])})`,
+  }
+
   return (
-    <div style={forecast && forecast[0]?.weather[0]?.main && {
-      backgroundImage: `url(./condition-images/${forecast[0]?.weather[0]?.main}.jpg)`,
-      backgrounPosition: 'no-repeat',
-      backgroundSize: 'cover',
-
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-
-      width: '100%',
-      height: '100%'
-    }}>
-      <Clock />
+    <div className='wrapper' style={style}>
+      <Header />
       <Input />
-      <Forecast />
+      <Weather />
     </div>
 )}
 

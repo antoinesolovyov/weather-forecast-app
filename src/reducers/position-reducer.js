@@ -29,7 +29,6 @@ export const positionReducer = function (state = initialState, action) {
       }
     case FETCH_POSITION_FAILURE:
       return {
-        ...state,
         position: {
           latitude: 0,
           longitude: 0

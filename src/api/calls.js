@@ -35,7 +35,6 @@ export const fetchForecast = ({ latitude, longitude }) => async (dispatch) => {
     const json = await response.json()
 
     const forecast = [json.current, ...json.daily]
-    console.log('forecast:', forecast)
 
     const date = new Date()
     localStorage.setItem(
