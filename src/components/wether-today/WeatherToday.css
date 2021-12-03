@@ -24,6 +24,8 @@
 
 @media screen and (min-width: 720px) {
 	.weather-today {
+    width: 340px;
+    height: 340px;
 		margin-right: 20px;
 	}
 	

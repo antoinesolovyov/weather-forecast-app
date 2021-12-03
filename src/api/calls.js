@@ -75,8 +75,8 @@ export const fetchLocation = ({ latitude, longitude }) => async (dispatch) => {
     }
 
     const json = await response.json()
-
-    const location = json?.plus_code?.compound_code
+    const results = json?.results
+    const location = results[results.length - 2].formatted_address
     dispatch(fetchLocationSuccess(location))
   } catch (error) {
     dispatch(fetchLocationFailure(error))

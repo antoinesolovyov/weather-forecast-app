@@ -13,11 +13,12 @@ export default function Location () {
     dispatch(fetchLocation(position))
   }, [position])
 
+  const [region, country] = location.split(',')
+
   return (
     <div className="location">
-      <p>{location?.split(' ')[2]}</p>
-      <p>{location?.split(' ')[1]?.split(',')[0]}</p>
-      <p>{location}</p>
+      <p>{country}</p>
+      <p>{region}</p>
     </div>
   )
 }
