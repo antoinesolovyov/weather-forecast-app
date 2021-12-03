@@ -9,7 +9,6 @@ html {
 
 body {
 	height: 100%;
-	
 	font-family: 'Roboto Condensed';
 	font-size: 16px;
 	line-height: 20px;
@@ -20,6 +19,23 @@ body {
   display: flex;
 	flex-direction: column;
 	align-items: center;
+  width: 100%;
+}
+
+@media screen and (min-width: 960px) {
+	#root {
+		height: 100%;
+	}
+}
+
+.wrapper {
+  background-position: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   width: 100%;
   height: 100%;

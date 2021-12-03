@@ -21,15 +21,14 @@ export const locationReducer = function (state = initialState, action) {
     case FETCH_LOCATION_SUCCESS:
       return {
         ...state,
-        loading: false,
-        location: action.payload
+        location: action.payload,
+        loading: false
       }
     case FETCH_LOCATION_FAILURE:
       return {
-        ...state,
+        location: '',
         loading: false,
-        error: action.payload.error,
-        location: ''
+        error: action.payload.error
       }
     default:
       return state
