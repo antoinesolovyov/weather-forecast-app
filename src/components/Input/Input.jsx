@@ -1,21 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectLocation } from 'utils/selectors'
-import { fetchLocationSuccess } from '../../actions/forecast-actions'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { fetchPostition } from 'api/calls'
 import './Input.css'
 
 export default function Input () {
   const [value, setValue] = useState('')
   const dispatch = useDispatch()
-  const location = useSelector(selectLocation)
-
-  useEffect(() => {
-    setValue(location?.split(' ')[1]?.split(',')[0])
-  }, [location])
 
   const submit = (event) => {
     event.preventDefault()
-    dispatch(fetchLocationSuccess(value))
+    dispatch(fetchPostition(value))
   }
 
   const change = (event) => {

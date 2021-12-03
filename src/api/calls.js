@@ -1,17 +1,26 @@
-import { getWeatherUrl, getWeatherLocationUrl, getGeocodeUrl } from './urls'
 import {
-  fetchForecastBegin, fetchForecastSuccess, fetchForecastFailure,
-  fetchLocationBegin, fetchLocationSuccess, fetchLocationFailure,
-  setCurrentPosition
-} from '../actions/forecast-actions'
+  getWeatherUrl,
+  getGeocodeUrl,
+  getReverseGeocodeUrl
+} from './urls'
 
-export async function getPosition (dispatch) {
-  await navigator.geolocation.getCurrentPosition((position) => {
-    const { latitude, longitude } = position.coords
+import {
+  fetchForecastBegin,
+  fetchForecastSuccess,
+  fetchForecastFailure
+} from 'actions/forecast-actions'
 
-    dispatch(setCurrentPosition({ latitude, longitude }))
-  })
-}
+import {
+  fetchPositionBegin,
+  fetchPositionSuccess,
+  fetchPositionFailure
+} from 'actions/position-actions'
+
+import {
+  fetchLocationBegin,
+  fetchLocationSuccess,
+  fetchLocationFailure
+} from 'actions/location-actions'
 
 export const fetchForecast = ({ latitude, longitude }) => async (dispatch) => {
   dispatch(fetchForecastBegin())
@@ -25,14 +34,8 @@ export const fetchForecast = ({ latitude, longitude }) => async (dispatch) => {
 
     const json = await response.json()
 
-    const { daily } = json
-    const forecast = []
-    for (let i = 0; i < 7; i++) {
-      forecast[i] = {
-        ...daily[i].weather[0],
-        temp: daily[i].temp
-      }
-    }
+    const forecast = [json.current, ...json.daily]
+    console.log('forecast:', forecast)
 
     const date = new Date()
     localStorage.setItem(
@@ -46,38 +49,27 @@ export const fetchForecast = ({ latitude, longitude }) => async (dispatch) => {
   }
 }
 
-export const fetchForecastByLocation = (location) => async (dispatch) => {
-  dispatch(fetchForecastBegin())
+export const loadForecast = ({ latitude, longitude }) => (dispatch, getState) => {
+  console.log(getState())
+  const date = new Date()
+  const item = JSON.parse(localStorage.getItem(`${latitude.toFixed(2)}:${longitude.toFixed(2)},${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`))
 
-  try {
-    const response = await fetch(getWeatherLocationUrl(location))
+  dispatch(fetchForecastSuccess(item.forecast))
+}
 
-    if (!response.ok) {
-      throw Error(response.statusText)
-    }
+export async function getPosition (dispatch) {
+  await navigator.geolocation.getCurrentPosition((position) => {
+    const { latitude, longitude } = position.coords
 
-    const json = await response.json()
-
-    const { daily } = json
-    const forecast = []
-    for (let i = 0; i < 7; i++) {
-      forecast[i] = {
-        ...daily[i].weather[0],
-        temp: daily[i].temp
-      }
-    }
-
-    dispatch(fetchForecastSuccess(forecast))
-  } catch (error) {
-    dispatch(fetchForecastFailure(error))
-  }
+    dispatch(fetchPositionSuccess({ latitude, longitude }))
+  })
 }
 
 export const fetchLocation = ({ latitude, longitude }) => async (dispatch) => {
   dispatch(fetchLocationBegin())
 
   try {
-    const response = await fetch(getGeocodeUrl(latitude, longitude))
+    const response = await fetch(getReverseGeocodeUrl(latitude, longitude))
 
     if (!response.ok) {
       throw Error(response.statusText)
@@ -92,10 +84,23 @@ export const fetchLocation = ({ latitude, longitude }) => async (dispatch) => {
   }
 }
 
-export const loadForecast = ({ latitude, longitude }) => (dispatch, getState) => {
-  console.log(getState())
-  const date = new Date()
-  const item = JSON.parse(localStorage.getItem(`${latitude.toFixed(2)}:${longitude.toFixed(2)},${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`))
+export const fetchPostition = (location) => async (dispatch) => {
+  dispatch(fetchPositionBegin())
 
-  dispatch(fetchForecastSuccess(item.forecast))
+  try {
+    const response = await fetch(getGeocodeUrl(location))
+
+    if (!response.ok) {
+      throw Error(response.statusText)
+    }
+
+    const json = await response.json()
+
+    const latitude = json?.results[0]?.geometry.location.lat
+    const longitude = json?.results[0]?.geometry.location.lng
+
+    dispatch(fetchPositionSuccess({ latitude, longitude }))
+  } catch (error) {
+    dispatch(fetchPositionFailure(error))
+  }
 }
