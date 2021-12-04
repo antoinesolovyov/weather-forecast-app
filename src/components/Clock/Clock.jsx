@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { setDate } from 'actions/date-action'
+import { setDate } from 'actions/date-actions'
 import { formatTime, formatDate } from 'utils/formatters'
 import { selectDate } from 'utils/selectors'
 import './Clock.css'

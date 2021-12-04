@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { fetchPostition } from 'api/calls'
+import { setValue } from 'actions/input-actions'
+import { selectValue } from 'utils/selectors'
 import './Input.css'
 
 export default function Input () {
-  const [value, setValue] = useState('')
   const dispatch = useDispatch()
+  const value = useSelector(selectValue)
 
   const submit = (event) => {
     event.preventDefault()
@@ -13,7 +15,7 @@ export default function Input () {
   }
 
   const change = (event) => {
-    setValue(event.target.value)
+    dispatch(setValue(event.target.value))
   }
 
   return (
