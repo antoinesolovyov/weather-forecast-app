@@ -1,5 +1,5 @@
 import React from 'react'
-import { getIconPath } from 'api/urls'
+import { getIconPath } from 'api/paths'
 import './WeatherToday.css'
 
 export default function WeatherToday ({ forecast }) {

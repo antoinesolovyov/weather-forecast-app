@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getImagePath } from './api/urls'
+import { getImagePath } from './api/paths'
 import { getPosition } from 'api/calls'
 import { selectForecast } from 'utils/selectors'
 import Header from './components/header/Header'

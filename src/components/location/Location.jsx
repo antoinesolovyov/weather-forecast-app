@@ -17,8 +17,8 @@ export default function Location () {
 
   return (
     <div className="location">
-      <p>{country}</p>
       <p>{region}</p>
+      <p>{country}</p>
     </div>
   )
 }
