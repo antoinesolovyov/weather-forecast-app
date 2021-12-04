@@ -2,6 +2,10 @@ export const selectDate = (state) => {
   return state.dateState.date
 }
 
+export const selectValue = (state) => {
+  return state.inputState.value
+}
+
 export const selectForecast = (state) => {
   return state.forecastState.forecast
 }

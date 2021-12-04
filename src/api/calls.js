@@ -4,11 +4,7 @@ import {
   getReverseGeocodeUrl
 } from './urls'
 
-import {
-  fetchForecastBegin,
-  fetchForecastSuccess,
-  fetchForecastFailure
-} from 'actions/forecast-actions'
+import { setValue } from 'actions/input-actions'
 
 import {
   fetchPositionBegin,
@@ -22,11 +18,18 @@ import {
   fetchLocationFailure
 } from 'actions/location-actions'
 
-export const fetchForecast = ({ latitude, longitude }) => async (dispatch) => {
+import {
+  fetchForecastBegin,
+  fetchForecastSuccess,
+  fetchForecastFailure
+} from 'actions/forecast-actions'
+import { getLocaleStorageItem, setLocaleStorageItem } from './localStorage'
+
+export const fetchForecast = (position) => async (dispatch) => {
   dispatch(fetchForecastBegin())
 
   try {
-    const response = await fetch(getWeatherUrl(latitude, longitude))
+    const response = await fetch(getWeatherUrl(position))
 
     if (!response.ok) {
       throw Error(response.statusText)
@@ -36,11 +39,7 @@ export const fetchForecast = ({ latitude, longitude }) => async (dispatch) => {
 
     const forecast = [json.current, ...json.daily]
 
-    const date = new Date()
-    localStorage.setItem(
-      `${latitude.toFixed(2)}:${longitude.toFixed(2)},${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`,
-      JSON.stringify({ forecast })
-    )
+    setLocaleStorageItem(new Date(), position, forecast)
 
     dispatch(fetchForecastSuccess(forecast))
   } catch (error) {
@@ -48,12 +47,10 @@ export const fetchForecast = ({ latitude, longitude }) => async (dispatch) => {
   }
 }
 
-export const loadForecast = ({ latitude, longitude }) => (dispatch, getState) => {
-  console.log(getState())
-  const date = new Date()
-  const item = JSON.parse(localStorage.getItem(`${latitude.toFixed(2)}:${longitude.toFixed(2)},${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`))
+export const loadForecast = (position) => (dispatch) => {
+  const forecast = getLocaleStorageItem(new Date(), position)
 
-  dispatch(fetchForecastSuccess(item.forecast))
+  dispatch(fetchForecastSuccess(forecast))
 }
 
 export async function getPosition (dispatch) {
@@ -64,19 +61,25 @@ export async function getPosition (dispatch) {
   })
 }
 
-export const fetchLocation = ({ latitude, longitude }) => async (dispatch) => {
+export const fetchLocation = (position) => async (dispatch, getState) => {
+  const state = getState()
   dispatch(fetchLocationBegin())
 
   try {
-    const response = await fetch(getReverseGeocodeUrl(latitude, longitude))
+    const response = await fetch(getReverseGeocodeUrl(position))
 
     if (!response.ok) {
       throw Error(response.statusText)
     }
 
     const json = await response.json()
-    const results = json?.results
-    const location = results[results.length - 2].formatted_address
+    const results = json?.results.reverse()
+    const location = results[1].formatted_address
+
+    if (state.inputState.value === '') {
+      dispatch(setValue(location.split(',')[0]))
+    }
+
     dispatch(fetchLocationSuccess(location))
   } catch (error) {
     dispatch(fetchLocationFailure(error))
