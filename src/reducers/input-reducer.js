@@ -1,10 +1,12 @@
+import { SET_VALUE } from 'actions/input-actions'
+
 const initialState = {
   value: ''
 }
 
-export const inputReducer = function (state = initialState, action) {
+export function inputReducer (state = initialState, action) {
   switch (action.type) {
-    case 'SET_VALUE':
+    case SET_VALUE:
       return {
         value: action.payload
       }

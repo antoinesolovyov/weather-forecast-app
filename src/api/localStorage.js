@@ -1,6 +1,14 @@
-export const getLocalStorageKey = (date, position) => {
+const formatDate = (date) => {
+  return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}`
+}
+
+const formatPosition = (position) => {
   const { latitude, longitude } = position
-  return `${date.getDate()}.${date.getMonth()}.${date.getFullYear()}/${latitude.toFixed(2)}:${longitude.toFixed(2)}`
+  return `${latitude.toFixed(2)}:${longitude.toFixed(2)}`
+}
+
+const getLocalStorageKey = (date, position) => {
+  return `${formatDate(date)}/${formatPosition(position)}`
 }
 
 export const isLocalStorageHasKey = (date, position) => {
@@ -15,5 +23,6 @@ export const setLocaleStorageItem = (date, position, item) => {
 }
 
 export const getLocaleStorageItem = (date, position) => {
-  return JSON.parse(localStorage.getItem(getLocalStorageKey(date, position)))
+  const item = localStorage.getItem(getLocalStorageKey(date, position))
+  return JSON.parse(item)
 }

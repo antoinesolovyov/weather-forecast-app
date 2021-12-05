@@ -1,10 +1,12 @@
+import { SET_DATE } from 'actions/date-actions'
+
 const initialState = {
   date: new Date()
 }
 
-export const dateReducer = function (state = initialState, action) {
+export function dateReducer (state = initialState, action) {
   switch (action.type) {
-    case 'SET_DATE':
+    case SET_DATE:
       return {
         date: action.payload
       }

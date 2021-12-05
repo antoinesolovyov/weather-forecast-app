@@ -3,7 +3,7 @@ import Clock from 'components/clock/Clock'
 import Location from 'components/location/Location'
 import './Header.css'
 
-export default function Header () {
+export function Header () {
   return (
     <header>
       <Clock />

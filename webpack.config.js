@@ -11,8 +11,9 @@ module.exports = {
   },
   resolve: {
     alias: {
-      actions: path.resolve(__dirname, 'src/actions'),
       api: path.resolve(__dirname, 'src/api'),
+      actions: path.resolve(__dirname, 'src/actions'),
+      reducers: path.resolve(__dirname, 'src/reducers'),
       components: path.resolve(__dirname, 'src/components'),
       utils: path.resolve(__dirname, 'src/utils'),
     },
