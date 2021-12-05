@@ -10,7 +10,7 @@ import {
 } from 'utils/selectors'
 import './Weather.css'
 
-export default function Weather () {
+export function Weather () {
   const dispatch = useDispatch()
   const date = useSelector(selectDate)
   const position = useSelector(selectPosition)
@@ -27,7 +27,7 @@ export default function Weather () {
 
   return (
     <main>
-      {loading ? <p>!!!</p> :
+      {loading ? <p>Loading...</p> :
         <>
           <WeatherToday forecast={forecast} />
           <WeatherForecast forecast={forecast} />

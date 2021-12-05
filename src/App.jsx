@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { getImagePath } from './api/paths'
+import { getImagePath } from 'api/paths'
 import { getPosition } from 'api/calls'
 import { selectForecast } from 'utils/selectors'
-import Header from './components/header/Header'
-import Input from './components/input/Input'
-import Weather from './components/weather/Weather'
+import { Header, Input, Weather } from 'components'
 import './App.css'
 
 const App = () => {

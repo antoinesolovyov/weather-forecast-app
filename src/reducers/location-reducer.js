@@ -10,7 +10,7 @@ export const initialState = {
   error: null
 }
 
-export const locationReducer = function (state = initialState, action) {
+export function locationReducer (state = initialState, action) {
   switch (action.type) {
     case FETCH_LOCATION_BEGIN:
       return {

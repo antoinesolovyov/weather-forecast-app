@@ -1,29 +1,11 @@
-import {
-  getWeatherUrl,
-  getGeocodeUrl,
-  getReverseGeocodeUrl
-} from './urls'
-
-import { setValue } from 'actions/input-actions'
-
-import {
-  fetchPositionBegin,
-  fetchPositionSuccess,
-  fetchPositionFailure
-} from 'actions/position-actions'
-
-import {
-  fetchLocationBegin,
-  fetchLocationSuccess,
-  fetchLocationFailure
-} from 'actions/location-actions'
-
-import {
-  fetchForecastBegin,
-  fetchForecastSuccess,
-  fetchForecastFailure
-} from 'actions/forecast-actions'
+import { getWeatherUrl, getGeocodeUrl, getReverseGeocodeUrl } from './urls'
 import { getLocaleStorageItem, setLocaleStorageItem } from './localStorage'
+import {
+  setValue,
+  fetchPositionBegin, fetchPositionSuccess, fetchPositionFailure,
+  fetchLocationBegin, fetchLocationSuccess, fetchLocationFailure,
+  fetchForecastBegin, fetchForecastSuccess, fetchForecastFailure
+} from 'actions'
 
 export const fetchForecast = (position) => async (dispatch) => {
   dispatch(fetchForecastBegin())
@@ -36,7 +18,6 @@ export const fetchForecast = (position) => async (dispatch) => {
     }
 
     const json = await response.json()
-
     const forecast = [json.current, ...json.daily]
 
     setLocaleStorageItem(new Date(), position, forecast)
@@ -53,7 +34,7 @@ export const loadForecast = (position) => (dispatch) => {
   dispatch(fetchForecastSuccess(forecast))
 }
 
-export async function getPosition (dispatch) {
+export const getPosition = async (dispatch) => {
   await navigator.geolocation.getCurrentPosition((position) => {
     const { latitude, longitude } = position.coords
 
@@ -97,7 +78,6 @@ export const fetchPostition = (location) => async (dispatch) => {
     }
 
     const json = await response.json()
-
     const latitude = json?.results[0]?.geometry.location.lat
     const longitude = json?.results[0]?.geometry.location.lng
 

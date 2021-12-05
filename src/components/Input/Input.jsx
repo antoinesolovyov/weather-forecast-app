@@ -5,7 +5,7 @@ import { setValue } from 'actions/input-actions'
 import { selectValue } from 'utils/selectors'
 import './Input.css'
 
-export default function Input () {
+export function Input () {
   const dispatch = useDispatch()
   const value = useSelector(selectValue)
 
