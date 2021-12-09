@@ -1,9 +1,0 @@
-.clock {
-	display: flex;
-	flex-direction: column;
-}
-
-.clock p:first-child {
-	font-size: 48px;
-	line-height: 60px;
-}
