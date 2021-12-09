@@ -4,7 +4,7 @@ const initialState = {
   value: ''
 }
 
-export function inputReducer (state = initialState, action) {
+export const inputReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_VALUE:
       return {

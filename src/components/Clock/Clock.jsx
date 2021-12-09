@@ -5,14 +5,15 @@ import { formatTime, formatDate } from 'utils/formatters'
 import { selectDate } from 'utils/selectors'
 import './Clock.css'
 
-export default function Clock () {
+export const Clock = () => {
   const dispatch = useDispatch()
   const date = useSelector(selectDate)
 
   const tick = () => {
     const date = new Date()
-    if (date.getSeconds() % 60 === 0)
+    if (date.getSeconds() % 60 === 0) {
       dispatch(setDate(date))
+    }
   }
 
   useEffect(() => {
@@ -21,7 +22,7 @@ export default function Clock () {
   }, [])
 
   return (
-    <div className="clock">
+    <div className='clock'>
       <p>{formatTime(date)}</p>
       <p>{formatDate(date)}</p>
     </div>

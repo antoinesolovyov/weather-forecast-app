@@ -2,7 +2,7 @@ import React from 'react'
 import { getIconPath } from 'api/paths'
 import './WeatherToday.css'
 
-export default function WeatherToday ({ forecast }) {
+export const WeatherToday = ({ forecast }) => {
   const today = forecast[0]
 
   return (

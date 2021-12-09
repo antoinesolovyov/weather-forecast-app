@@ -1,13 +1,10 @@
 import React from 'react'
-import Clock from 'components/clock/Clock'
-import Location from 'components/location/Location'
+import { Clock, Location } from 'components'
 import './Header.css'
 
-export function Header () {
-  return (
-    <header>
-      <Clock />
-      <Location />
-    </header>
-  )
-}
+export const Header = () => (
+  <header>
+    <Clock />
+    <Location />
+  </header>
+)

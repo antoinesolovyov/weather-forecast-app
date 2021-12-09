@@ -4,7 +4,7 @@ import { fetchLocation } from 'api/calls'
 import { selectLocation, selectPosition } from 'utils/selectors'
 import './Location.css'
 
-export default function Location () {
+export const Location = () => {
   const dispatch = useDispatch()
   const position = useSelector(selectPosition)
   const location = useSelector(selectLocation)
@@ -16,7 +16,7 @@ export default function Location () {
   const [region, country] = location.split(',')
 
   return (
-    <div className="location">
+    <div className='location'>
       <p>{region}</p>
       <p>{country}</p>
     </div>
