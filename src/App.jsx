@@ -15,7 +15,7 @@ const App = () => {
   }, [])
 
   const style = forecast && forecast[0]?.weather[0]?.main && {
-    backgroundImage: `url(${getImagePath(forecast[0])})`,
+    backgroundImage: `url(${getImagePath(forecast[0])})`
   }
 
   return (
@@ -24,6 +24,7 @@ const App = () => {
       <Input />
       <Weather />
     </div>
-)}
+  )
+}
 
 export default App

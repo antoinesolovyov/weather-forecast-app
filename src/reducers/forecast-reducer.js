@@ -10,7 +10,7 @@ export const initialState = {
   error: null
 }
 
-export function forecastReducer (state = initialState, action) {
+export const forecastReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_FORECAST_BEGIN:
       return {

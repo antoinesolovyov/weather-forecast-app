@@ -5,7 +5,7 @@ import { setValue } from 'actions/input-actions'
 import { selectValue } from 'utils/selectors'
 import './Input.css'
 
-export function Input () {
+export const Input = () => {
   const dispatch = useDispatch()
   const value = useSelector(selectValue)
 
@@ -21,10 +21,10 @@ export function Input () {
   return (
     <form onSubmit={submit}>
       <input
-        type="text"
+        type='text'
         value={value}
         onChange={change}
-        placeholder="Input the city name"
+        placeholder='Input the city name'
       />
     </form>
   )

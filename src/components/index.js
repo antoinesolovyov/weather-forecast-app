@@ -1,3 +1,7 @@
 export { Header } from './header/Header'
+export { Clock } from './clock/Clock'
+export { Location } from './location/Location'
 export { Input } from './input/Input'
 export { Weather } from './weather/Weather'
+export { WeatherToday } from './wether-today/WeatherToday'
+export { WeatherForecast } from './weather-forecast/WeatherForecast'

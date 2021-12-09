@@ -2,15 +2,14 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchForecast, loadForecast } from 'api/calls'
 import { isLocalStorageHasKey } from 'api/localStorage'
-import WeatherToday from 'components/wether-today/WeatherToday'
-import WeatherForecast from 'components/weather-forecast/WeatherForecast'
+import { WeatherToday, WeatherForecast } from 'components'
 import {
   selectDate, selectPosition,
   selectForecast, selectLoading
 } from 'utils/selectors'
 import './Weather.css'
 
-export function Weather () {
+export const Weather = () => {
   const dispatch = useDispatch()
   const date = useSelector(selectDate)
   const position = useSelector(selectPosition)

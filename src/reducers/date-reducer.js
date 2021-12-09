@@ -4,7 +4,7 @@ const initialState = {
   date: new Date()
 }
 
-export function dateReducer (state = initialState, action) {
+export const dateReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_DATE:
       return {

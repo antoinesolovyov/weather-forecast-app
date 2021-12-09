@@ -13,7 +13,7 @@ export const initialState = {
   error: null
 }
 
-export function positionReducer (state = initialState, action) {
+export const positionReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_POSITION_BEGIN:
       return {
